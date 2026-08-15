@@ -1,0 +1,16 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+  orchestrator:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LUMINA_API_TOKEN=dev-token
+      - LUMINA_MODEL_URL=http://model-service:8080/v1/classify
+    depends_on:
+      - redis
